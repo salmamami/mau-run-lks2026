@@ -9,14 +9,16 @@ class PesertaController extends Controller
 {
     public function dashboard()
     {
-        $registrations = Registration::with([
-            'event.eventType',
-            'event.city'
-        ])
-        ->where('user_id', Auth::id())
-        ->latest()
-        ->get();
+        $registrations = auth()->user()
+            ->registrations()
+            ->with('event.eventType', 'event.city')
+            ->latest()
+            ->get();
 
-        return view('peserta.dashboard', compact('registrations'));
+       return view('peserta.dashboard',[
+        'registrations'=>$registrations,
+        'totalRegistration'=>$registrations->count(),
+        'upcoming'=>$registrations->count(),
+       ]);
     }
 }

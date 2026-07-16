@@ -1,101 +1,71 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard Peserta')
+@section('title','Dashboard')
 
 @section('content')
 
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="container py-5">
 
-    <h2>Dashboard Peserta</h2>
+    <div class="hero-dashboard mb-5">
 
-    <a href="/" class="btn btn-primary">
-        Lihat Event
-    </a>
+        <div>
 
-</div>
+            <h2>
 
-@if(session('success'))
+                Hi, {{ auth()->user()->name }} 👋
 
-<div class="alert alert-success">
-    {{ session('success') }}
-</div>
+            </h2>
 
-@endif
+            <p>
 
-<div class="card shadow-sm mb-4">
+                Ready for your next finish line?
 
-    <div class="card-body">
+            </p>
 
-        <h3>
-            Selamat datang, {{ Auth::user()->name }}
-        </h3>
+        </div>
 
-        <p class="text-muted mb-0">
-            Berikut daftar event yang sudah kamu ikuti.
-        </p>
+        <a href="/"
+           class="btn btn-warning">
+
+            Browse Event
+
+        </a>
 
     </div>
 
-</div>
+    <div class="row mb-5">
 
-<h4 class="mb-3">Event Saya</h4>
+        <div class="col-md-4">
 
-@if($registrations->count())
+            <div class="stats-card">
 
-    @foreach($registrations as $registration)
+                <h5>{{ $totalRegistration }}</h5>
 
-    <div class="card shadow-sm mb-4">
+                <small>Registered Event</small>
 
-        <div class="card-body">
+            </div>
 
-            <div class="row">
+        </div>
 
-                <div class="col-md-8">
+        <div class="col-md-4">
 
-                    <h4>
-                        {{ $registration->event->nama_event }}
-                    </h4>
+            <div class="stats-card">
 
-                    <p class="mb-1">
-                        <strong>Jenis Event :</strong>
-                        {{ $registration->event->eventType->name }}
-                    </p>
+                <h5>{{ $upcoming }}</h5>
 
-                    <p class="mb-1">
-                        <strong>Kota :</strong>
-                        {{ $registration->event->city->name }}
-                    </p>
+                <small>Upcoming</small>
 
-                    <p class="mb-1">
-                        <strong>Tanggal :</strong>
-                        {{ \Carbon\Carbon::parse($registration->event->tanggal)->format('d F Y') }}
-                    </p>
+            </div>
 
-                </div>
+        </div>
 
-                <div class="col-md-4">
+        <div class="col-md-4">
 
-                    <p class="mb-1">
-                        <strong>Harga</strong><br>
-                        Rp {{ number_format($registration->event->harga,0,',','.') }}
-                    </p>
+            <div class="stats-card">
 
-                    <p class="mb-1">
-                        <strong>Diskon</strong><br>
-                        Rp {{ number_format($registration->diskon,0,',','.') }}
-                    </p>
+                <h5>0</h5>
 
-                    <p class="mb-1">
-                        <strong>Total Bayar</strong><br>
-                        Rp {{ number_format($registration->total_bayar,0,',','.') }}
-                    </p>
-
-                    <p class="mb-1">
-                        <strong>Ukuran Jersey</strong><br>
-                        {{ $registration->ukuran_jersey }}
-                    </p>
-
-                </div>
+                <small>Completed</small>
 
             </div>
 
@@ -103,14 +73,95 @@
 
     </div>
 
-    @endforeach
+    <h3 class="mb-4">
 
-@else
+        My Events
 
-<div class="alert alert-warning">
-    Kamu belum mengikuti event apa pun.
+    </h3>
+
+    <div class="row">
+
+        @forelse($registrations as $registration)
+
+        @php
+
+            $event = $registration->event;
+
+        @endphp
+
+        <div class="col-lg-6 mb-4">
+
+            <div class="participant-event-card">
+
+                <img src="{{ asset('images/'.$event->image) }}"
+                class="participant-event-image">
+
+                <div class="p-4">
+
+                    <span class="badge bg-warning text-dark">
+
+                        {{ $event->eventType->name }}
+
+                    </span>
+
+                    <h4 class="mt-3">
+
+                        {{ $event->nama_event }}
+
+                    </h4>
+
+                    <p class="text-muted">
+
+                        📍 {{ $event->city->name }}
+
+                    </p>
+
+                    <p class="text-muted">
+
+                        📅 {{ \Carbon\Carbon::parse($event->tanggal)->format('d M Y') }}
+
+                    </p>
+
+                    <a href="{{ route('registration.show',$registration->id) }}"
+                    class="btn btn-warning w-100">
+
+                        View Detail
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        @empty
+
+        <div class="col-12">
+
+            <div class="empty-card">
+
+                <h4>
+
+                    You haven't joined any event yet.
+
+                </h4>
+
+                <a href="/"
+                   class="btn btn-warning mt-3">
+
+                    Explore Event
+
+                </a>
+
+            </div>
+
+        </div>
+
+        @endforelse
+
+    </div>
+
 </div>
-
-@endif
 
 @endsection

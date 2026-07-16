@@ -1,137 +1,113 @@
 @extends('layouts.app')
 
-@section('title','Edit Event')
+@section('title', 'Edit Event')
 
 @section('content')
 
 <h2 class="mb-4">Edit Event</h2>
 
 <div class="card shadow">
+    <div class="card-body">
+        <form action="{{ route('events.update', $event->id) }}" method="POST">
 
-<div class="card-body">
+            @csrf
+            @method('PUT')
 
-<form action="{{ route('events.update',$event->id) }}" method="POST">
+            <div class="mb-3">
+                <label>Nama Event</label>
 
-@csrf
-@method('PUT')
+                <input
+                    type="text"
+                    name="nama_event"
+                    class="form-control"
+                    value="{{ $event->nama_event }}">
+            </div>
 
-<div class="mb-3">
-<label>Nama Event</label>
+            <div class="mb-3">
+                <label>Jenis Event</label>
 
-<input
-type="text"
-name="nama_event"
-class="form-control"
-value="{{ $event->nama_event }}"
->
+                <select
+                    name="event_type_id"
+                    class="form-control">
 
-</div>
+                    @foreach ($eventTypes as $type)
+                        <option
+                            value="{{ $type->id }}"
+                            {{ $event->event_type_id == $type->id ? 'selected' : '' }}>
 
-<div class="mb-3">
+                            {{ $type->name }}
 
-<label>Jenis Event</label>
+                        </option>
+                    @endforeach
 
-<select
-name="event_type_id"
-class="form-control">
+                </select>
+            </div>
 
-@foreach($eventTypes as $type)
+            <div class="mb-3">
+                <label>Kota</label>
 
-<option
-value="{{ $type->id }}"
-{{ $event->event_type_id==$type->id?'selected':'' }}>
+                <select
+                    name="city_id"
+                    class="form-control">
 
-{{ $type->name }}
+                    @foreach ($cities as $city)
+                        <option
+                            value="{{ $city->id }}"
+                            {{ $event->city_id == $city->id ? 'selected' : '' }}>
 
-</option>
+                            {{ $city->name }}
 
-@endforeach
+                        </option>
+                    @endforeach
 
-</select>
+                </select>
+            </div>
 
-</div>
+            <div class="mb-3">
+                <label>Tanggal</label>
 
-<div class="mb-3">
+                <input
+                    type="date"
+                    name="tanggal"
+                    class="form-control"
+                    value="{{ $event->tanggal }}">
+            </div>
 
-<label>Kota</label>
+            <div class="mb-3">
+                <label>Harga</label>
 
-<select
-name="city_id"
-class="form-control">
+                <input
+                    type="number"
+                    name="harga"
+                    class="form-control"
+                    value="{{ $event->harga }}">
+            </div>
 
-@foreach($cities as $city)
+            <div class="mb-3">
+                <label>Kuota</label>
 
-<option
-value="{{ $city->id }}"
-{{ $event->city_id==$city->id?'selected':'' }}>
+                <input
+                    type="number"
+                    name="kuota"
+                    class="form-control"
+                    value="{{ $event->kuota }}">
+            </div>
 
-{{ $city->name }}
+            <div class="mb-3">
+                <label>Deskripsi</label>
 
-</option>
+                <textarea
+                    name="deskripsi"
+                    rows="4"
+                    class="form-control">{{ $event->deskripsi }}</textarea>
+            </div>
 
-@endforeach
+            <button class="btn btn-primary">
+                Update Event
+            </button>
 
-</select>
-
-</div>
-
-<div class="mb-3">
-
-<label>Tanggal</label>
-
-<input
-type="date"
-name="tanggal"
-class="form-control"
-value="{{ $event->tanggal }}">
-
-</div>
-
-<div class="mb-3">
-
-<label>Harga</label>
-
-<input
-type="number"
-name="harga"
-class="form-control"
-value="{{ $event->harga }}">
-
-</div>
-
-<div class="mb-3">
-
-<label>Kuota</label>
-
-<input
-type="number"
-name="kuota"
-class="form-control"
-value="{{ $event->kuota }}">
-
-</div>
-
-<div class="mb-3">
-
-<label>Deskripsi</label>
-
-<textarea
-name="deskripsi"
-rows="4"
-class="form-control">{{ $event->deskripsi }}</textarea>
-
-</div>
-
-<button class="btn btn-primary">
-
-Update Event
-
-</button>
-
-</form>
-
-</div>
-
+        </form>
+    </div>
 </div>
 
 @endsection

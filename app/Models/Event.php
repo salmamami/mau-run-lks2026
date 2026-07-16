@@ -13,7 +13,8 @@ class Event extends Model
         'tanggal',
         'harga',
         'kuota',
-        'deskripsi'
+        'deskripsi',
+        'image',
     ];
 
     public function eventType()

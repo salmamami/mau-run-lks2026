@@ -11,12 +11,14 @@ class Registration extends Model
         'event_id',
         'nama_lengkap',
         'email',
+        'nik',
         'no_hp',
         'jenis_kelamin',
         'ukuran_jersey',
         'kode_kupon',
         'diskon',
         'total_bayar',
+        'status',
     ];
 
     public function user()

@@ -45,6 +45,10 @@
 
         <div class="card shadow-sm h-100">
 
+        <img src="{{ asset('images/' . ($event->image ?? 'default.png')) }}"
+             class="card-img-top"
+             style="height:220px; object-fit:cover;">
+
             <div class="card-body">
 
                 <h5>Grow Run 2026</h5>

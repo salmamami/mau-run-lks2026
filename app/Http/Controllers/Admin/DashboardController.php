@@ -13,18 +13,15 @@ class DashboardController extends Controller
     public function index()
     {
         $totalEvent = Event::count();
-
         $totalPeserta = Registration::count();
-
         $totalKota = City::count();
-
         $totalJenis = EventType::count();
-
+        
         $events = Event::with([
             'eventType',
             'city',
             'registrations'
-        ])->latest()->get();
+        ])->latest()->take(5)->get();
 
         return view('admin.dashboard', compact(
             'totalEvent',

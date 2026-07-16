@@ -1,121 +1,127 @@
-@extends('layouts.app')
+<form action="{{ route('registration.store', $event->id) }}" method="POST">
+    @csrf
 
-@section('title', 'Pendaftaran Event')
+    <div class="row">
 
-@section('content')
+        <div class="col-md-6 mb-4">
+            <label class="form-label">Nama Lengkap</label>
 
-<h2 class="mb-4">Pendaftaran Event</h2>
+            <input type="text"
+                name="nama_lengkap"
+                class="form-control form-control-lg"
+                value="{{ old('nama_lengkap', Auth::user()->name) }}"
+                required>
 
-<div class="card shadow-sm">
+            @error('nama_lengkap')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
+        </div>
 
-    <div class="card-body">
+        <div class="col-md-6 mb-4">
+            <label class="form-label">Email</label>
 
-        <h4>{{ $event->nama_event }}</h4>
+            <input type="email"
+                name="email"
+                class="form-control form-control-lg"
+                value="{{ old('email', Auth::user()->email) }}"
+                required>
 
-        <p>
-            {{ $event->eventType->name }} |
-            {{ $event->city->name }}
-        </p>
+            @error('email')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
+        </div>
 
-        <p>
-            Harga :
-            <strong>
-                Rp {{ number_format($event->harga,0,',','.') }}
-            </strong>
-        </p>
+        <div class="col-md-6 mb-4">
+            <label class="form-label">NIK</label>
 
-        <hr>
+            <input type="text"
+                name="nik"
+                class="form-control form-control-lg"
+                maxlength="16"
+                placeholder="Masukkan NIK"
+                value="{{ old('nik') }}"
+                required>
 
-        <form action="{{ route('registration.store',$event->id) }}"
-              method="POST">
+            @error('nik')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
+        </div>
 
-            @csrf
+        <div class="col-md-6 mb-4">
+            <label class="form-label">No HP</label>
 
-            <div class="mb-3">
-                <label>Nama Lengkap</label>
+            <input type="text"
+                name="no_hp"
+                class="form-control form-control-lg"
+                placeholder="08xxxxxxxxxx"
+                value="{{ old('no_hp') }}"
+                required>
 
-                <input type="text"
-                       name="nama_lengkap"
-                       class="form-control"
-                       required>
-            </div>
+            @error('no_hp')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
+        </div>
 
-            <div class="mb-3">
-                <label>Email</label>
+        <div class="col-md-6 mb-4">
+            <label class="form-label">Jenis Kelamin</label>
 
-                <input type="email"
-                       name="email"
-                       class="form-control"
-                       value="{{ Auth::user()->email }}"
-                       required>
-            </div>
+            <select name="jenis_kelamin"
+                class="form-select form-select-lg"
+                required>
 
-            <div class="mb-3">
-                <label>No HP</label>
+                <option value="">Pilih Jenis Kelamin</option>
+                <option value="Laki-laki" {{ old('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' }}>
+                    Laki-laki
+                </option>
+                <option value="Perempuan" {{ old('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}>
+                    Perempuan
+                </option>
 
-                <input type="text"
-                       name="no_hp"
-                       class="form-control"
-                       required>
-            </div>
+            </select>
 
-            <div class="mb-3">
+            @error('jenis_kelamin')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
+        </div>
 
-                <label>Jenis Kelamin</label>
+        <div class="col-md-6 mb-4">
+            <label class="form-label">Ukuran Jersey</label>
 
-                <select name="jenis_kelamin"
-                        class="form-control">
+            <select name="ukuran_jersey"
+                class="form-select form-select-lg"
+                required>
 
-                    <option value="Laki-laki">
-                        Laki-laki
-                    </option>
+                <option value="">Pilih Ukuran</option>
+                <option value="S" {{ old('ukuran_jersey') == 'S' ? 'selected' : '' }}>S</option>
+                <option value="M" {{ old('ukuran_jersey') == 'M' ? 'selected' : '' }}>M</option>
+                <option value="L" {{ old('ukuran_jersey') == 'L' ? 'selected' : '' }}>L</option>
+                <option value="XL" {{ old('ukuran_jersey') == 'XL' ? 'selected' : '' }}>XL</option>
 
-                    <option value="Perempuan">
-                        Perempuan
-                    </option>
+            </select>
 
-                </select>
+            @error('ukuran_jersey')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
+        </div>
 
-            </div>
+        <div class="col-md-12 mb-4">
+            <label class="form-label">Kode Kupon</label>
 
-            <div class="mb-3">
+            <input type="text"
+                name="kode_kupon"
+                class="form-control form-control-lg"
+                placeholder="Opsional"
+                value="{{ old('kode_kupon') }}">
 
-                <label>Ukuran Jersey</label>
-
-                <select name="ukuran_jersey"
-                        class="form-control">
-
-                    <option>S</option>
-                    <option>M</option>
-                    <option>L</option>
-                    <option>XL</option>
-                    <option>XXL</option>
-
-                </select>
-
-            </div>
-
-            <div class="mb-3">
-
-                <label>Kode Kupon</label>
-
-                <input type="text"
-                       name="kode_kupon"
-                       class="form-control"
-                       placeholder="D-10 / D-20 / D-50">
-
-            </div>
-
-            <button class="btn btn-success">
-
-                Daftar Event
-
-            </button>
-
-        </form>
+            @error('kode_kupon')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
+        </div>
 
     </div>
 
-</div>
+    <button type="submit" class="btn btn-warning btn-lg w-100 fw-bold rounded-3">
+        Konfirmasi Pendaftaran
+    </button>
 
-@endsection
+</form>

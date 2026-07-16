@@ -63,3 +63,20 @@ Route::middleware(['auth', 'role:peserta'])->group(function () {
     )->name('registration.store');
 
 });
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/registration/{id}', [RegistrationController::class, 'show'])
+        ->name('registration.show');
+
+    Route::get('/registrations', [App\Http\Controllers\Admin\RegistrationController::class, 'index'])
+       ->name('admin.registrations.index');
+
+    Route::patch('/registrations/{registration}/confirm', [App\Http\Controllers\Admin\RegistrationController::class, 'confirm'])
+       ->name('admin.registrations.confirm');
+
+    Route::patch('/registrations/{registration}/reject', [App\Http\Controllers\Admin\RegistrationController::class, 'reject'])
+       ->name('admin.registrations.reject');
+
+});
+

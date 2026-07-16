@@ -10,83 +10,72 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $events = Event::with([
             'eventType',
             'city'
-        ])->latest()->get();
+        ])
+        ->latest()
+        ->paginate(9);
 
-        return view(
-            'admin.events.index',
-            compact('events')
-        );
+        return view('admin.events.index', compact('events'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $eventTypes = EventType::all();
         $cities = City::all();
 
-        return view('admin.events.create', compact('eventTypes', 'cities'));
+        return view('admin.events.create', compact(
+            'eventTypes',
+            'cities'
+        ));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $validate = $request->validate([
-            'nama_event' => 'required',
-            'event_type_id' => 'required',
-            'city_id' => 'required',
-            'tanggal' => 'required|date',
-            'harga' => 'required|numeric',
-            'kuota' => 'required|integer',
-            'deskripsi' => 'required',
+        $data = $request->validate([
+            'nama_event'    => 'required|string|max:255',
+            'event_type_id' => 'required|exists:event_types,id',
+            'city_id'       => 'required|exists:cities,id',
+            'tanggal'       => 'required|date',
+            'harga'         => 'required|numeric',
+            'kuota'         => 'required|integer|min:1',
+            'deskripsi'     => 'required',
+            'image'         => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        Event::create($validate);
+        if ($request->hasFile('image')) {
+
+            $filename = time() . '.' . $request->image->extension();
+
+            $request->image->move(
+                public_path('images'),
+                $filename
+            );
+
+            $data['image'] = $filename;
+        }
+
+        Event::create($data);
 
         return redirect()
-             ->route('events.index')
-             ->with('success', 'Event berhasil ditambahkan');
+            ->route('events.index')
+            ->with('success', 'Event berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $event = Event::findOrFail($id);
+
         $eventTypes = EventType::all();
+
         $cities = City::all();
 
         return view('admin.events.edit', compact(
@@ -96,48 +85,56 @@ class EventController extends Controller
         ));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nama_event' => 'required',
-            'event_type_id' => 'required',
-            'city_id' => 'required',
-            'tanggal' => 'required|date',
-            'harga' => 'required|integer',
-            'kuota' => 'required|integer',
-            'deskripsi' => 'required',
+        $data = $request->validate([
+            'nama_event'    => 'required|string|max:255',
+            'event_type_id' => 'required|exists:event_types,id',
+            'city_id'       => 'required|exists:cities,id',
+            'tanggal'       => 'required|date',
+            'harga'         => 'required|numeric',
+            'kuota'         => 'required|integer|min:1',
+            'deskripsi'     => 'required',
+            'image'         => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $event = Event::findOrFail($id);
 
-        $event->update($request->all());
+        if ($request->hasFile('image')) {
+
+            if ($event->image && file_exists(public_path('images/' . $event->image))) {
+                unlink(public_path('images/' . $event->image));
+            }
+
+            $filename = time() . '.' . $request->image->extension();
+
+            $request->image->move(
+                public_path('images'),
+                $filename
+            );
+
+            $data['image'] = $filename;
+        }
+
+        $event->update($data);
 
         return redirect()
-              ->route('events.index')
-              ->with('success', 'Event berhasil diperbarui.');
+            ->route('events.index')
+            ->with('success', 'Event berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $event = Event::findOrFail($id);
 
+        if ($event->image && file_exists(public_path('images/' . $event->image))) {
+            unlink(public_path('images/' . $event->image));
+        }
+
         $event->delete();
 
         return redirect()
-              ->route('events.index')
-              ->with('success', 'Event berhasil dihapus');
+            ->route('events.index')
+            ->with('success', 'Event berhasil dihapus.');
     }
 }

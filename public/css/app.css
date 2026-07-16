@@ -1,0 +1,627 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* =====================================================
+LANDING PAGE
+===================================================== */
+
+.landing-hero {
+    padding: 90px 0;
+}
+
+.hero-badge {
+    display: inline-block;
+    background: #FFF4BF;
+    color: #8A6200;
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.hero-title {
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: #222;
+}
+
+.hero-title span {
+    color: #FACC15;
+}
+
+.hero-subtitle {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #666;
+    max-width: 540px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.hero-info {
+    display: flex;
+    gap: 50px;
+}
+
+.hero-info h3 {
+    font-size: 34px;
+    font-weight: 700;
+    color: #FACC15;
+    margin-bottom: 0;
+}
+
+.hero-info span {
+    color: #666;
+}
+
+.hero-image-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-circle {
+    width: 500px;
+    height: 500px;
+    background: linear-gradient(135deg, #FFE082, #FACC15);
+    border-radius: 50%;
+    position: absolute;
+    z-index: 0;
+}
+
+.hero-image {
+    position: relative;
+    z-index: 1;
+    width: 420px;
+    height: 420px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 25px 60px rgba(0,0,0,.18);
+}
+
+@media (max-width: 992px) {
+
+    .landing-hero {
+        text-align: center;
+        padding: 70px 0;
+    }
+
+    .hero-title {
+        font-size: 46px;
+    }
+
+    .hero-buttons,
+    .hero-info {
+        justify-content: center;
+    }
+
+    .hero-circle {
+        width: 360px;
+        height: 360px;
+    }
+}
+
+.hero-stat {
+    background: #fff;
+    border-radius: 20px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,.06);
+    transition: .3s;
+    height: 100%;
+}
+
+.hero-stat:hover {
+    transform: translateY(-6px);
+}
+
+.hero-stat h3 {
+    font-size: 34px;
+    font-weight: 700;
+    color: #FACC15;
+    margin-bottom: 6px;
+}
+
+.hero-stat p {
+    margin: 0;
+    color: #666;
+    font-size: 15px;
+}
+
+.event-card {
+    height: 100%;
+}
+
+.event-cover {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+}
+
+.badge-category {
+    display: inline-block;
+    padding: 6px 14px;
+    background: #FFF4BF;
+    color: #8A6200;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.empty-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 60px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .05);
+}
+
+@media (max-width: 992px) {
+
+    .landing-hero {
+        text-align: center;
+        padding: 60px 0;
+    }
+
+    .hero-title {
+        font-size: 42px;
+    }
+
+    .hero-image {
+        margin-top: 40px;
+    }
+
+}
+
+@media (max-width: 576px) {
+
+    .hero-title {
+        font-size: 34px;
+    }
+
+    .hero-subtitle {
+        font-size: 16px;
+    }
+
+    .hero-stat-card {
+        padding: 24px;
+    }
+
+}
+
+/* =====================================================
+GLOBAL
+===================================================== */
+
+:root{
+    --primary:#FACC15;
+    --primary-dark:#EAB308;
+    --bg:#FFFDF7;
+    --white:#fff;
+    --text:#1F2937;
+    --gray:#6B7280;
+    --border:#ECECEC;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+}
+
+.container{
+    max-width:1200px;
+}
+
+/* =====================================================
+NAVBAR
+===================================================== */
+
+.navbar{
+    background:#fff!important;
+    border-bottom:1px solid var(--border);
+}
+
+.navbar-brand{
+    font-size:28px;
+    font-weight:700;
+}
+
+.nav-link{
+    font-weight:500;
+}
+
+/* =====================================================
+BUTTON
+===================================================== */
+
+.btn{
+    border-radius:12px;
+    font-weight:600;
+    padding:10px 22px;
+}
+
+.btn-warning{
+    background:var(--primary);
+    border:none;
+}
+
+.btn-warning:hover{
+    background:var(--primary-dark);
+}
+
+.btn-outline-warning{
+    border:2px solid var(--primary);
+    color:#222;
+}
+
+.btn-outline-warning:hover{
+    background:var(--primary);
+}
+
+.btn-register{
+    display:block;
+    padding:16px;
+    border-radius:16px;
+    font-size:20px;
+    font-weight:700;
+    text-align:center;
+}
+
+/* =====================================================
+FORM
+===================================================== */
+
+.form-control,
+.form-select,
+.form-modern{
+    border-radius:14px;
+    border:1px solid #ddd;
+    padding:12px 16px;
+    box-shadow:none;
+    transition:.25s;
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-modern:focus{
+    border-color:#FFC107;
+    box-shadow:0 0 0 .2rem rgba(255,193,7,.15);
+}
+
+textarea.form-modern{
+    resize:none;
+}
+
+/* =====================================================
+CARD
+===================================================== */
+
+.card{
+    border:none;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,.06);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+/* =====================================================
+LOGIN
+===================================================== */
+
+.login-box{
+    background:#fff;
+    border-radius:24px;
+    padding:40px;
+    box-shadow:0 10px 35px rgba(0,0,0,.05);
+}
+
+.modern-input{
+    height:56px;
+    border-radius:16px;
+}
+
+/* =====================================================
+PESERTA DASHBOARD
+===================================================== */
+
+.hero-dashboard{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:linear-gradient(135deg,#FFD54F,#FFC107);
+    padding:45px;
+    border-radius:28px;
+}
+
+.stats-card{
+    background:white;
+    border-radius:22px;
+    padding:30px;
+    text-align:center;
+    box-shadow:0 8px 20px rgba(0,0,0,.05);
+}
+
+.stats-card h5{
+    font-size:38px;
+    font-weight:700;
+}
+
+.table th{
+    color:#666;
+    font-weight:600;
+    border-bottom:1px solid #eee;
+    padding:16px 0;
+}
+
+.table td{
+    border-bottom:1px solid #eee;
+    padding:16px 0;
+}
+
+.alert-success{
+    border-radius:14px;
+    font-size:18px;
+}
+
+.info-card{
+    border:1px solid #f1f1f1;
+    transition:.3s;
+}
+
+.info-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 12px 25px rgba(0,0,0,.08);
+}
+
+/*==================================================
+EVENT CARD
+==================================================*/
+
+.event-card{
+    background:#fff;
+    border-radius:24px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,.06);
+    transition:.3s;
+    height:100%;
+}
+
+.event-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 18px 35px rgba(0,0,0,.08);
+}
+
+.event-cover{
+    width:100%;
+    aspect-ratio:16/9;
+    object-fit:cover;
+}
+
+.badge-category{
+    display:inline-block;
+    padding:6px 14px;
+    border-radius:30px;
+    background:#FFF4BF;
+    color:#8A6200;
+    font-size:13px;
+    font-weight:600;
+}
+
+/*==================================================
+EVENT DETAIL
+==================================================*/
+
+.event-banner{
+    width:100%;
+    height:460px;
+    object-fit:cover;
+    border-radius:26px;
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+}
+
+.info-card{
+    background:#fff;
+    border:1px solid #f1f1f1;
+    border-radius:22px;
+    padding:28px;
+    text-align:center;
+    transition:.3s;
+    height:100%;
+    box-shadow:0 8px 18px rgba(0,0,0,.04);
+}
+
+.info-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 16px 35px rgba(0,0,0,.08);
+}
+
+.info-card .icon{
+    font-size:30px;
+    margin-bottom:12px;
+}
+
+.info-card h5,
+.info-card h6{
+    margin-top:10px;
+    font-weight:700;
+}
+
+.description-card{
+    background:#fff;
+    border-radius:24px;
+    padding:36px;
+    box-shadow:0 10px 25px rgba(0,0,0,.05);
+}
+
+.register-card{
+    position:sticky;
+    top:100px;
+    background:#fff;
+    border-radius:26px;
+    padding:35px;
+    box-shadow:0 12px 30px rgba(0,0,0,.06);
+}
+
+.feature-list{
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+
+.feature-list li{
+    padding:10px 0;
+    border-bottom:1px solid #f3f3f3;
+}
+
+.feature-list li:last-child{
+    border-bottom:none;
+}
+
+/* =====================================================
+ADMIN DASHBOARD
+===================================================== */
+
+.stat-card{
+    background:#fff;
+    border-radius:22px;
+    padding:35px;
+    text-align:center;
+    box-shadow:0 8px 20px rgba(0,0,0,.05);
+}
+
+.stat-number{
+    font-size:46px;
+    font-weight:700;
+    color:#FFC107;
+}
+
+.stat-title{
+    color:#666;
+}
+
+/* =====================================================
+ADMIN EVENT
+===================================================== */
+
+.event-admin-card{
+    background:#fff;
+    border-radius:24px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.06);
+    transition:.3s;
+    height:100%;
+}
+
+.event-admin-card:hover{
+    transform:translateY(-8px);
+}
+
+.event-admin-image{
+    width:100%;
+    aspect-ratio:16/9;
+    object-fit:cover;
+}
+
+/* =========================================
+PESERTA DASHBOARD
+========================================= */
+
+.participant-event-card{
+
+    background:#fff;
+    border-radius:26px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.06);
+    transition:.3s;
+    height:100%;
+
+}
+
+.participant-event-card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+.participant-event-image{
+
+    width:100%;
+    aspect-ratio:16/9;
+    object-fit:cover;
+    display:block;
+
+}
+
+.participant-event-body{
+
+    padding:26px;
+
+}
+
+.participant-event-title{
+
+    font-size:32px;
+    font-weight:700;
+
+}
+
+/*=====================================
+TIMELINE
+=====================================*/
+
+.timeline{
+    position:relative;
+    margin-top:20px;
+}
+
+.timeline::before{
+    content:"";
+    position:absolute;
+    left:13px;
+    top:5px;
+    width:3px;
+    height:calc(100% - 10px);
+    background:#f1f1f1;
+}
+
+.timeline-item{
+    display:flex;
+    gap:20px;
+    position:relative;
+    margin-bottom:35px;
+}
+
+.timeline-dot{
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    flex-shrink:0;
+    border:5px solid white;
+    box-shadow:0 0 0 2px #eee;
+}
+
+/* =====================================================
+FOOTER
+===================================================== */
+
+.footer{
+    margin-top:80px;
+    padding:40px 0;
+    background:#fff;
+    border-top:1px solid #eee;
+}

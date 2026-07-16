@@ -1,161 +1,164 @@
 @extends('layouts.app')
 
-@section('title','Dashboard Admin')
+@section('title', 'Admin Dashboard')
 
 @section('content')
 
-<h2 class="mb-4">
-    Dashboard Admin
-</h2>
+<div class="container">
+    {{-- Header --}}
+    <div class="mb-5">
+        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill">
+            ADMIN PANEL
+        </span>
 
-<div class="mb-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap mt-3">
+            <div>
+                <h1 class="fw-bold display-5 mb-2">
+                    Welcome Back 👋
+                </h1>
 
-    <a href="{{ route('events.create') }}" class="btn btn-primary">
-        + Tambah Event
-    </a>
-
-    <a href="{{ route('events.index') }}" class="btn btn-outline-primary">
-        Kelola Event
-    </a>
-
-</div>
-
-<div class="row">
-
-    <div class="col-md-3 mb-3">
-
-        <div class="card shadow">
-
-            <div class="card-body text-center">
-
-                <h5>Total Event</h5>
-
-                <h2>{{ $totalEvent }}</h2>
-
+                <p class="text-muted fs-5">
+                    Kelola seluruh event dan peserta Mau Run dari satu dashboard.
+                </p>
             </div>
 
-        </div>
+            <div class="d-flex gap-2">
+                <a
+                    href="{{ route('admin.registrations.index') }}"
+                    class="btn btn-outline-dark btn-lg rounded-pill">
+                    Kelola Peserta
+                </a>
 
-    </div>
-
-    <div class="col-md-3 mb-3">
-
-        <div class="card shadow">
-
-            <div class="card-body text-center">
-
-                <h5>Total Peserta</h5>
-
-                <h2>{{ $totalPeserta }}</h2>
-
+                <a
+                    href="{{ route('events.create') }}"
+                    class="btn btn-warning btn-lg rounded-pill">
+                    + Tambah Event
+                </a>
             </div>
-
         </div>
-
     </div>
 
-    <div class="col-md-3 mb-3">
-
-        <div class="card shadow">
-
-            <div class="card-body text-center">
-
-                <h5>Total Kota</h5>
-
-                <h2>{{ $totalKota }}</h2>
-
+    {{-- Statistik --}}
+    <div class="row g-4 mb-5">
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-number">{{ $totalEvent }}</div>
+                <div class="stat-title">Total Event</div>
             </div>
-
         </div>
 
-    </div>
-
-    <div class="col-md-3 mb-3">
-
-        <div class="card shadow">
-
-            <div class="card-body text-center">
-
-                <h5>Jenis Event</h5>
-
-                <h2>{{ $totalJenis }}</h2>
-
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-number">{{ $totalPeserta }}</div>
+                <div class="stat-title">Total Peserta</div>
             </div>
-
         </div>
 
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-number">{{ $totalKota }}</div>
+                <div class="stat-title">Total Kota</div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-number">{{ $totalJenis }}</div>
+                <div class="stat-title">Jenis Event</div>
+            </div>
+        </div>
     </div>
 
-</div>
+    {{-- Event Terbaru --}}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Event Terbaru</h2>
 
-<div class="card shadow">
+            <p class="text-muted mb-0">
+                Event yang baru ditambahkan ke sistem.
+            </p>
+        </div>
 
-    <div class="card-header">
-
-        <strong>Daftar Event</strong>
-
+        <a
+            href="{{ route('events.index') }}"
+            class="text-decoration-none fw-semibold">
+            Lihat Semua →
+        </a>
     </div>
 
-    <div class="card-body">
+    <div class="row">
+        @forelse ($events->take(3) as $event)
+            <div class="col-lg-4 mb-4">
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100">
+                    <img
+                        src="{{ asset('images/' . $event->image) }}"
+                        style="height: 220px; width: 100%; object-fit: cover;">
 
-        <table class="table table-bordered">
+                    <div class="card-body d-flex flex-column">
+                        <span class="badge bg-warning text-dark">
+                            {{ $event->eventType->name }}
+                        </span>
 
-            <thead>
+                        <h4 class="fw-bold mt-3">
+                            {{ $event->nama_event }}
+                        </h4>
 
-                <tr>
+                        <p class="text-muted mb-1">
+                            📍 {{ $event->city->name }}
+                        </p>
 
-                    <th>Nama Event</th>
+                        <p class="text-muted mb-1">
+                            📅 {{ \Carbon\Carbon::parse($event->tanggal)->format('d M Y') }}
+                        </p>
 
-                    <th>Jenis</th>
+                        <p class="text-muted mb-3">
+                            👥 {{ $event->registrations->count() }} Peserta
+                        </p>
 
-                    <th>Kota</th>
+                        <h5 class="fw-bold text-warning mb-4">
+                            Rp {{ number_format($event->harga, 0, ',', '.') }}
+                        </h5>
 
-                    <th>Tanggal</th>
+                        <div class="mt-auto d-flex gap-2">
+                            <a
+                                href="{{ route('events.edit', $event->id) }}"
+                                class="btn btn-outline-warning w-100">
+                                Edit
+                            </a>
 
-                    <th>Harga</th>
+                            <form
+                                action="{{ route('events.destroy', $event->id) }}"
+                                method="POST"
+                                class="w-100">
 
-                    <th>Kuota Awal</th>
+                                @csrf
+                                @method('DELETE')
 
-                    <th>Terdaftar</th>
+                                <button
+                                    type="submit"
+                                    class="btn btn-outline-danger w-100"
+                                    onclick="return confirm('Yakin ingin menghapus event ini?')">
+                                    Hapus
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @empty
+            <div class="col-12">
+                <div class="empty-admin">
+                    <h4 class="mb-3">Belum ada event.</h4>
 
-                    <th>Sisa Kuota</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-            @foreach($events as $event)
-
-                <tr>
-
-                    <td>{{ $event->nama_event }}</td>
-
-                    <td>{{ $event->eventType->name }}</td>
-
-                    <td>{{ $event->city->name }}</td>
-
-                    <td>{{ \Carbon\Carbon::parse($event->tanggal)->format('d M Y') }}</td>
-
-                    <td>Rp {{ number_format($event->harga,0,',','.') }}</td>
-
-                    <td>{{ number_format($event->kuota + $event->registrations->count()) }}</td>
-
-                    <td>{{ $event->registrations->count() }}</td>
-
-                    <td>{{ number_format($event->kuota) }}</td>
-
-                </tr>
-
-            @endforeach
-
-            </tbody>
-
-        </table>
-
+                    <a
+                        href="{{ route('events.create') }}"
+                        class="btn btn-warning">
+                        Tambah Event
+                    </a>
+                </div>
+            </div>
+        @endforelse
     </div>
-
 </div>
 
 @endsection
