@@ -80,3 +80,7 @@ Route::middleware('auth')->group(function () {
 
 });
 
+Route::get(
+    '/registrations/{registration}',
+    [App\Http\Controllers\Admin\RegistrationController::class, 'show']
+)->name('admin.registrations.show');

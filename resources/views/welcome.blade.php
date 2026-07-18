@@ -103,7 +103,7 @@
 
                     <div class="event-card h-100">
 
-                        <img src="{{ asset('images/' . $event->image) }}"
+                        <img src="{{ asset('images/' . ($event->image ?: 'default.png')) }}"
                              alt="{{ $event->nama_event }}"
                              class="event-cover">
 

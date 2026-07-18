@@ -2,27 +2,21 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-
 
 class AdminSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-        User::FirstOrCreate(
-            ['email' => 'admin@mau-run.com'],
-            [
-                'name' => 'Administrator',
-                'password' => Hash::make('admin123'),
-                'role' => 'admin',
-            ]
-        );
+        User::create([
+            'name' => 'Administrator',
+            'email' => 'admin@mau-run.com',
+            'nik' => '3308067811120001',
+            'no_hp' => '081234567890',
+            'password' => Hash::make('admin123'),
+            'role' => 'admin',
+        ]);
     }
 }

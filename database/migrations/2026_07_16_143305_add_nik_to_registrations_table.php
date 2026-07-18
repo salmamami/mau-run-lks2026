@@ -6,23 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 class AddNikToRegistrationsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::table('registrations', function (Blueprint $table) {
-            $table->string('nik',16)->after('email');
+            $table->string('nik', 16)->after('email');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::table('registrations', function (Blueprint $table) {
