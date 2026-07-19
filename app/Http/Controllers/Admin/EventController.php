@@ -49,7 +49,6 @@ class EventController extends Controller
         if ($request->hasFile('image')) {
 
             $filename = time() . '.' . $request->image->extension();
-
             $request->image->move(
                 public_path('images'),
                 $filename
@@ -67,15 +66,19 @@ class EventController extends Controller
 
     public function show($id)
     {
-        //
+        $event = Event::with([
+            'city',
+            'eventType',
+            'registrations'
+        ])->findOrFail($id);
+            
+        return view('admin.events.show', compact('event')); 
     }
 
     public function edit($id)
     {
         $event = Event::findOrFail($id);
-
         $eventTypes = EventType::all();
-
         $cities = City::all();
 
         return view('admin.events.edit', compact(
@@ -107,12 +110,10 @@ class EventController extends Controller
             }
 
             $filename = time() . '.' . $request->image->extension();
-
             $request->image->move(
                 public_path('images'),
                 $filename
             );
-
             $data['image'] = $filename;
         }
 

@@ -112,7 +112,7 @@
                         </p>
 
                         <p class="text-muted mb-3">
-                            👥 {{ $event->registrations->count() }} Peserta
+                            👥 {{ $event->registrations()->whereIn('status', ['Pending', 'Confirmed'])->count() }} Peserta
                         </p>
 
                         <h5 class="fw-bold text-warning mb-4">

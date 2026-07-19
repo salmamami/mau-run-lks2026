@@ -65,6 +65,13 @@
                     <div class="d-flex gap-2 mt-4">
 
                         <a
+                            href="{{ route('events.show', $event->id) }}"
+                            class="btn btn-outline-warning w-100">
+
+                            Detail
+
+                        </a>
+                        <a
                             href="{{ route('events.edit', $event->id) }}"
                             class="btn btn-outline-warning w-100">
 

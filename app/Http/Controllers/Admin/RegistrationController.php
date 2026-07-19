@@ -54,31 +54,43 @@ class RegistrationController extends Controller
 
     public function confirm(Registration $registration)
     {
-        if ($registration->status != 'Pending') {
-            return back()->with('error', 'Status peserta sudah diproses.');
+        if ($registration->status !== 'Pending') {
+            return back()->with(
+                'error',
+                'Status peserta sudah diproses.'
+            );
         }
 
         $registration->update([
             'status' => 'Confirmed'
         ]);
 
-        return back()->with('success', 'Peserta berhasil dikonfirmasi.');
+        return back()->with(
+            'success',
+            'Peserta berhasil dikonfirmasi.'
+        );
     }
 
     public function reject(Registration $registration)
     {
-        if ($registration->status != 'Pending') {
-            return back()->with('error', 'Status peserta sudah diproses.');
+        if ($registration->status !== 'Pending') {
+            return back()->with(
+                'error',
+                'Status peserta sudah diproses.'
+            );
         }
 
         $registration->update([
             'status' => 'Rejected'
         ]);
 
-        // Mengembalikan kuota event
+        // Kembalikan kuota event
         $registration->event()->increment('kuota');
 
-        return back()->with('success', 'Pendaftaran berhasil ditolak dan kuota dikembalikan.');
+        return back()->with(
+            'success',
+            'Pendaftaran berhasil ditolak dan kuota berhasil dikembalikan.'
+        );
     }
 
     public function show(Registration $registration)
