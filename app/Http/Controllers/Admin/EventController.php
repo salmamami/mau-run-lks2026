@@ -66,13 +66,38 @@ class EventController extends Controller
 
     public function show($id)
     {
-        $event = Event::with([
-            'city',
-            'eventType',
-            'registrations'
-        ])->findOrFail($id);
-            
-        return view('admin.events.show', compact('event')); 
+         $event = Event::with([
+        'city',
+        'eventType',
+        'registrations'
+    ])->findOrFail($id);
+
+    $confirmed = $event->registrations
+        ->where('status', 'Confirmed')
+        ->count();
+
+    $pending = $event->registrations
+        ->where('status', 'Pending')
+        ->count();
+
+    $rejected = $event->registrations
+        ->where('status', 'Rejected')
+        ->count();
+
+    $totalPendapatan = $event->registrations
+        ->where('status', 'Confirmed')
+        ->sum('total_bayar');
+
+    return view(
+        'admin.events.show',
+        compact(
+            'event',
+            'confirmed',
+            'pending',
+            'rejected',
+            'totalPendapatan'
+        )
+    );
     }
 
     public function edit($id)

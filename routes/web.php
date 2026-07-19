@@ -84,3 +84,8 @@ Route::get(
     '/registrations/{registration}',
     [App\Http\Controllers\Admin\RegistrationController::class, 'show']
 )->name('admin.registrations.show');
+
+Route::get(
+    '/admin/events/{event}',
+    [EventController::class, 'show']
+)->name('events.show');
