@@ -107,6 +107,79 @@
         </div>
     </div>
 
+    {{-- QUICK ACTION --}}
+<div class="row g-4 mb-5">
+
+    <div class="col-md-3">
+        <a href="{{ route('events.create') }}"
+            class="card border-0 shadow-sm rounded-4 text-decoration-none text-dark h-100">
+
+            <div class="card-body text-center py-4">
+                <h1>➕</h1>
+                <h5 class="fw-bold mt-3">
+                    Tambah Event
+                </h5>
+                <small class="text-muted">
+                    Buat event baru
+                </small>
+            </div>
+
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <a href="{{ route('admin.registrations.index', ['status' => 'Pending']) }}"
+            class="card border-0 shadow-sm rounded-4 text-decoration-none text-dark h-100">
+
+            <div class="card-body text-center py-4">
+                <h1>⏳</h1>
+                <h5 class="fw-bold mt-3">
+                    Verifikasi
+                </h5>
+                <small class="text-muted">
+                    Peserta Pending
+                </small>
+            </div>
+
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <a href="{{ route('events.index') }}"
+            class="card border-0 shadow-sm rounded-4 text-decoration-none text-dark h-100">
+
+            <div class="card-body text-center py-4">
+                <h1>🏃</h1>
+                <h5 class="fw-bold mt-3">
+                    Kelola Event
+                </h5>
+                <small class="text-muted">
+                    Lihat semua event
+                </small>
+            </div>
+
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <a href="{{ route('admin.registrations.index') }}"
+            class="card border-0 shadow-sm rounded-4 text-decoration-none text-dark h-100">
+
+            <div class="card-body text-center py-4">
+                <h1>👥</h1>
+                <h5 class="fw-bold mt-3">
+                    Kelola Peserta
+                </h5>
+                <small class="text-muted">
+                    Semua pendaftaran
+                </small>
+            </div>
+
+        </a>
+    </div>
+
+</div>
+
     {{-- EVENT TERBARU --}}
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
