@@ -14,12 +14,13 @@ class RegistrationRequest extends FormRequest
     public function rules()
     {
         return [
-            'nama_lengkap'  => 'required|string|max:100',
-            'email'         => 'required|email',
-            'nik'           => 'required|digits:16',
-            'no_hp'         => 'required|regex:/^[0-9]{10,15}$/',
-            'jenis_kelamin' => 'required',
-            'ukuran_jersey' => 'required',
+            'nama_lengkap'      => 'required|string|max:100',
+            'email'             => 'required|email',
+            'nik'               => 'required|digits:16',
+            'no_hp'             => 'required|regex:/^[0-9]{10,15}$/',
+            'jenis_kelamin'     => 'required',
+            'ukuran_jersey'     => 'required',
+            'bukti_pembayaran'  => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ];
     }
 
@@ -40,6 +41,11 @@ class RegistrationRequest extends FormRequest
             'jenis_kelamin.required' => 'Pilih jenis kelamin.',
 
             'ukuran_jersey.required' => 'Pilih ukuran jersey.',
+
+            'bukti_pembayaran.required' => 'Silakan upload bukti pembayaran.',
+            'bukti_pembayaran.image' => 'File harus berupa gambar.',
+            'bukti_pembayaran.mimes' => 'Format gambar harus JPG, JPEG, atau PNG.',
+            'bukti_pembayaran.max' => 'Ukuran gambar maksimal 2 MB.',
         ];
     }
 }

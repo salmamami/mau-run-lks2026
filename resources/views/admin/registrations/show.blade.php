@@ -14,136 +14,180 @@
             </h2>
 
             <p class="text-muted mb-0">
-                Informasi lengkap pendaftaran peserta.
+                Informasi lengkap pendaftaran peserta Mau Run.
             </p>
         </div>
 
         <a
             href="{{ route('admin.registrations.index') }}"
-            class="btn btn-outline-warning">
+            class="btn btn-outline-warning rounded-pill px-4">
             ← Kembali
         </a>
 
     </div>
 
-    <div class="card border-0 shadow-sm rounded-4">
+    <div class="row g-4">
 
-        <div class="card-body p-5">
+        <div class="col-lg-6">
 
-            <div class="row g-5">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
 
-                <div class="col-md-6">
+                <div class="card-body p-4">
 
                     <h5 class="fw-bold mb-4">
-                        Data Peserta
+                        👤 Data Peserta
                     </h5>
 
-                    <table class="table">
+                    <div class="mb-3">
+                        <small class="text-muted">Nama Lengkap</small>
+                        <h6 class="fw-semibold mb-0">
+                            {{ $registration->nama_lengkap }}
+                        </h6>
+                    </div>
 
-                        <tr>
-                            <th width="180">Nama</th>
-                            <td>{{ $registration->nama_lengkap }}</td>
-                        </tr>
+                    <div class="mb-3">
+                        <small class="text-muted">Email</small>
+                        <h6 class="fw-semibold mb-0">
+                            {{ $registration->email }}
+                        </h6>
+                    </div>
 
-                        <tr>
-                            <th>Email</th>
-                            <td>{{ $registration->email }}</td>
-                        </tr>
+                    <div class="mb-3">
+                        <small class="text-muted">NIK</small>
+                        <h6 class="fw-semibold mb-0">
+                            {{ $registration->nik }}
+                        </h6>
+                    </div>
 
-                        <tr>
-                            <th>NIK</th>
-                            <td>{{ $registration->nik }}</td>
-                        </tr>
+                    <div class="mb-3">
+                        <small class="text-muted">Nomor HP</small>
+                        <h6 class="fw-semibold mb-0">
+                            {{ $registration->no_hp }}
+                        </h6>
+                    </div>
 
-                        <tr>
-                            <th>No HP</th>
-                            <td>{{ $registration->no_hp }}</td>
-                        </tr>
+                    <div class="row">
 
-                        <tr>
-                            <th>Jenis Kelamin</th>
-                            <td>{{ $registration->jenis_kelamin }}</td>
-                        </tr>
+                        <div class="col-6">
 
-                        <tr>
-                            <th>Ukuran Jersey</th>
-                            <td>{{ $registration->ukuran_jersey }}</td>
-                        </tr>
+                            <small class="text-muted">
+                                Jenis Kelamin
+                            </small>
 
-                    </table>
+                            <h6 class="fw-semibold">
+                                {{ $registration->jenis_kelamin }}
+                            </h6>
+
+                        </div>
+
+                        <div class="col-6">
+
+                            <small class="text-muted">
+                                Jersey
+                            </small>
+
+                            <h6 class="fw-semibold">
+                                {{ $registration->ukuran_jersey }}
+                            </h6>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
-                <div class="col-md-6">
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+
+                <div class="card-body p-4">
 
                     <h5 class="fw-bold mb-4">
-                        Data Event
+                        🏃 Data Event
                     </h5>
 
-                    <table class="table">
+                    <div class="mb-3">
+                        <small class="text-muted">Nama Event</small>
+                        <h6 class="fw-semibold mb-0">
+                            {{ $registration->event->nama_event }}
+                        </h6>
+                    </div>
 
-                        <tr>
-                            <th width="180">Event</th>
-                            <td>{{ $registration->event->nama_event }}</td>
-                        </tr>
+                    <div class="mb-3">
+                        <small class="text-muted">Kota</small>
+                        <h6 class="fw-semibold mb-0">
+                            {{ $registration->event->city->name }}
+                        </h6>
+                    </div>
 
-                        <tr>
-                            <th>Kota</th>
-                            <td>{{ $registration->event->city->name }}</td>
-                        </tr>
+                    <div class="mb-3">
+                        <small class="text-muted">Kategori</small>
+                        <h6 class="fw-semibold mb-0">
+                            {{ $registration->event->eventType->name }}
+                        </h6>
+                    </div>
 
-                        <tr>
-                            <th>Kategori</th>
-                            <td>{{ $registration->event->eventType->name }}</td>
-                        </tr>
+                    <hr>
 
-                        <tr>
-                            <th>Harga</th>
-                            <td>
-                                Rp {{ number_format($registration->event->harga,0,',','.') }}
-                            </td>
-                        </tr>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Harga</span>
+                        <strong>
+                            Rp {{ number_format($registration->event->harga,0,',','.') }}
+                        </strong>
+                    </div>
 
-                        <tr>
-                            <th>Diskon</th>
-                            <td>
-                                Rp {{ number_format($registration->diskon,0,',','.') }}
-                            </td>
-                        </tr>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Diskon</span>
+                        <strong class="text-success">
+                            - Rp {{ number_format($registration->diskon,0,',','.') }}
+                        </strong>
+                    </div>
 
-                        <tr>
-                            <th>Total Bayar</th>
-                            <td class="fw-bold text-warning">
-                                Rp {{ number_format($registration->total_bayar,0,',','.') }}
-                            </td>
-                        </tr>
+                    <div class="d-flex justify-content-between mb-4">
+                        <span class="fw-bold">
+                            Total Bayar
+                        </span>
 
-                        <tr>
-                            <th>Status</th>
-                            <td>
+                        <h5 class="fw-bold text-warning mb-0">
+                            Rp {{ number_format($registration->total_bayar,0,',','.') }}
+                        </h5>
+                    </div>
 
-                                @if($registration->status == 'Pending')
-                                    <span class="badge bg-warning text-dark">
-                                        Pending
-                                    </span>
-                                @elseif($registration->status == 'Confirmed')
-                                    <span class="badge bg-success">
-                                        Confirmed
-                                    </span>
-                                @else
-                                    <span class="badge bg-danger">
-                                        Rejected
-                                    </span>
-                                @endif
+                    <hr>
 
-                            </td>
-                        </tr>
+                    <div class="mb-4">
 
-                    </table>
+                        <small class="text-muted">
+                            Status Pendaftaran
+                        </small>
+
+                        <div class="mt-2">
+
+                            @if($registration->status == 'Pending')
+                                <span class="badge bg-warning text-dark px-3 py-2">
+                                    Pending
+                                </span>
+                            @elseif($registration->status == 'Confirmed')
+                                <span class="badge bg-success px-3 py-2">
+                                    Confirmed
+                                </span>
+                            @else
+                                <span class="badge bg-danger px-3 py-2">
+                                    Rejected
+                                </span>
+                            @endif
+
+                        </div>
+
+                    </div>
 
                     @if($registration->status == 'Pending')
 
-                        <div class="d-flex gap-3 mt-4">
+                        <div class="d-grid gap-2">
 
                             <form
                                 action="{{ route('admin.registrations.confirm', $registration) }}"
@@ -152,8 +196,8 @@
                                 @csrf
                                 @method('PATCH')
 
-                                <button class="btn btn-success">
-                                    Confirm Peserta
+                                <button class="btn btn-success w-100">
+                                    ✓ Confirm Peserta
                                 </button>
 
                             </form>
@@ -165,8 +209,8 @@
                                 @csrf
                                 @method('PATCH')
 
-                                <button class="btn btn-danger">
-                                    Reject Peserta
+                                <button class="btn btn-danger w-100">
+                                    ✕ Reject Peserta
                                 </button>
 
                             </form>

@@ -72,7 +72,32 @@
                 </table>
 
                 <hr class="my-5">
+                <h3 class="fw-bold mt-5 mb-4">
+                    Bukti Pembayaran
+                </h3>
+                
+                @if($registration->bukti_pembayaran)
+                <div class="text-center">
+                    <img
+                    src="{{ asset('storage/bukti-pembayaran/' . $registration->bukti_pembayaran) }}"
+                    class="img-fluid rounded-4 shadow-sm"
+                    style="max-height:500px;">
+                    
+                    <p class="text-muted mt-3 mb-0">
+                        Bukti pembayaran yang telah diupload.
+                    </p>
+                
+                </div>
 
+                @else
+
+                <div class="alert alert-warning mb-0">
+                    Bukti pembayaran belum tersedia.
+                </div>
+
+                @endif
+                
+                <hr class="my-5">
                 <h3 class="fw-bold mb-4">
                     Race Pack
                 </h3>

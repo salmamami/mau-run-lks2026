@@ -14,20 +14,6 @@ class RegisterController extends Controller
         return view('auth.register');
     }
 
-    public function show(Registration $registration)
-    {
-        $registration->load([
-            'event.city',
-            'event.eventType',
-            'user'
-        ]);
-
-        return view(
-            'admin.registrations.show',
-            compact('registration')
-        );
-    }
-
     public function store(Request $request)
     {
         $request->validate([

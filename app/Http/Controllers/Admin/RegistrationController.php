@@ -54,6 +54,10 @@ class RegistrationController extends Controller
 
     public function confirm(Registration $registration)
     {
+        if ($registration->status != 'Pending') {
+            return back()->with('error', 'Status peserta sudah diproses.');
+        }
+
         $registration->update([
             'status' => 'Confirmed'
         ]);
@@ -63,10 +67,31 @@ class RegistrationController extends Controller
 
     public function reject(Registration $registration)
     {
+        if ($registration->status != 'Pending') {
+            return back()->with('error', 'Status peserta sudah diproses.');
+        }
+
         $registration->update([
             'status' => 'Rejected'
         ]);
 
-        return back()->with('success', 'Pendaftaran berhasil ditolak.');
+        // Mengembalikan kuota event
+        $registration->event()->increment('kuota');
+
+        return back()->with('success', 'Pendaftaran berhasil ditolak dan kuota dikembalikan.');
+    }
+
+    public function show(Registration $registration)
+    {
+        $registration->load([
+            'event.city',
+            'event.eventType',
+            'user'
+        ]);
+
+        return view(
+            'admin.registrations.show',
+            compact('registration')
+        );
     }
 }

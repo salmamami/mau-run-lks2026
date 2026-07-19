@@ -18,7 +18,8 @@ class Registration extends Model
         'kode_kupon',
         'diskon',
         'total_bayar',
-        'status', 
+        'bukti_pembayaran',
+        'status',
     ];
 
     public function user()

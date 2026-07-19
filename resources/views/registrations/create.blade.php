@@ -29,7 +29,10 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('registration.store', $event->id) }}" method="POST">
+                    <form
+                        action="{{ route('registration.store', $event->id) }}"
+                        method="POST"
+                        enctype="multipart/form-data">
                         @csrf
 
                         <div class="row">
@@ -157,7 +160,50 @@
                                     <small class="text-danger d-block">{{ $message }}</small>
                                 @enderror
                             </div>
+                            
+                            <div class="col-12 mb-4">
+                                <label class="form-label fw-semibold">
+                                    Bukti Pembayaran
+                                </label>
+                                <input
+                                    type="file"
+                                    name="bukti_pembayaran"
+                                    id="bukti_pembayaran"
+                                    class="form-control form-modern"
+                                    accept=".jpg,.jpeg,.png"
+                                    required>
 
+                                <small class="text-muted">
+                                Upload bukti transfer (JPG, JPEG, PNG maksimal 2 MB).
+                                </small>
+
+                                @error('bukti_pembayaran')
+                                   <small class="text-danger d-block">
+                                        {{ $message }}
+                                   </small>
+                                @enderror
+                            </div>
+
+                            <div class="col-12 mb-4">
+                                <div class="card border-0 bg-light rounded-4">
+                                    <div class="card-body text-center">
+                                        <img
+                                            id="previewImage"
+                                            class="img-fluid rounded-3 d-none"
+                                            style="max-height:300px;">
+
+                                        <div id="placeholderUpload">
+                                            <h5 class="fw-bold mb-2">
+                                                Preview Bukti Pembayaran
+                                            </h5>
+
+                                            <p class="text-muted mb-0">
+                                               Preview gambar akan muncul di sini.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <button type="submit" class="btn btn-warning btn-register w-100">
@@ -216,5 +262,31 @@
 
     </div>
 </div>
+
+<script>
+
+document.getElementById('bukti_pembayaran').addEventListener('change', function () {
+
+    const file = this.files[0];
+
+    if (!file) {
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+
+        document.getElementById('previewImage').src = e.target.result;
+        document.getElementById('previewImage').classList.remove('d-none');
+        document.getElementById('placeholderUpload').style.display = 'none';
+
+    };
+
+    reader.readAsDataURL(file);
+
+});
+
+</script>
 
 @endsection

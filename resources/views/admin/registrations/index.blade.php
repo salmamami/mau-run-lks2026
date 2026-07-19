@@ -58,6 +58,7 @@
     </div>
 
     <div class="card border-0 shadow-sm rounded-4 mb-4">
+
         <div class="card-body">
 
             <form method="GET">
@@ -65,6 +66,7 @@
                 <div class="row g-3 align-items-end">
 
                     <div class="col-md-6">
+
                         <label class="form-label fw-semibold">
                             Cari Peserta
                         </label>
@@ -74,14 +76,17 @@
                                class="form-control"
                                placeholder="Nama, email, NIK, No HP, Event..."
                                value="{{ request('search') }}">
+
                     </div>
 
                     <div class="col-md-3">
+
                         <label class="form-label fw-semibold">
                             Status
                         </label>
 
                         <select name="status" class="form-select">
+
                             <option value="">Semua Status</option>
 
                             <option value="Pending"
@@ -98,7 +103,9 @@
                                 {{ request('status') == 'Rejected' ? 'selected' : '' }}>
                                 Rejected
                             </option>
+
                         </select>
+
                     </div>
 
                     <div class="col-md-3 d-flex gap-2">
@@ -119,6 +126,7 @@
             </form>
 
         </div>
+
     </div>
 
     <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
@@ -135,9 +143,7 @@
                         <th>Kontak</th>
                         <th>Total</th>
                         <th>Status</th>
-                        <th width="240" class="text-center">
-                            Aksi
-                        </th>
+                        <th width="260" class="text-center">Aksi</th>
                     </tr>
                 </thead>
 
@@ -248,7 +254,8 @@
                                             @csrf
                                             @method('PATCH')
 
-                                            <button class="btn btn-success btn-sm">
+                                            <button type="submit"
+                                                    class="btn btn-success btn-sm">
                                                 Confirm
                                             </button>
 
@@ -260,11 +267,19 @@
                                             @csrf
                                             @method('PATCH')
 
-                                            <button class="btn btn-danger btn-sm">
+                                            <button type="submit"
+                                                    class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Yakin ingin menolak pendaftaran ini?')">
                                                 Reject
                                             </button>
 
                                         </form>
+
+                                    @else
+
+                                        <span class="text-muted small align-self-center">
+                                            Tidak ada aksi
+                                        </span>
 
                                     @endif
 
