@@ -18,13 +18,25 @@
             </p>
         </div>
 
-        <a
-            href="{{ route('events.index') }}"
-            class="btn btn-outline-warning">
+        <div class="d-flex gap-2">
 
-            ← Kembali
+            <a
+                href="{{ route('events.edit',$event->id) }}"
+                class="btn btn-warning">
 
-        </a>
+                Edit Event
+
+            </a>
+
+            <a
+                href="{{ route('events.index') }}"
+                class="btn btn-outline-warning">
+
+                ← Kembali
+
+            </a>
+
+        </div>
 
     </div>
 
@@ -32,7 +44,7 @@
 
         <div class="col-lg-7">
 
-            <div class="card shadow-sm border-0 rounded-4">
+            <div class="card border-0 shadow-sm rounded-4">
 
                 <img
                     src="{{ asset('images/'.$event->image) }}"
@@ -40,7 +52,7 @@
 
                 <div class="card-body">
 
-                    <table class="table">
+                    <table class="table align-middle">
 
                         <tr>
                             <th width="180">Nama Event</th>
@@ -71,7 +83,11 @@
 
                         <tr>
                             <th>Kuota Tersisa</th>
-                            <td>{{ $event->kuota }}</td>
+                            <td>
+                                <span class="badge bg-primary fs-6">
+                                    {{ $event->kuota }}
+                                </span>
+                            </td>
                         </tr>
 
                         <tr>
@@ -89,38 +105,98 @@
 
         <div class="col-lg-5">
 
-            <div class="card shadow-sm border-0 rounded-4">
+            <div class="card border-0 shadow-sm rounded-4">
 
                 <div class="card-body">
 
                     <h4 class="fw-bold mb-4">
-                        Statistik
+                        Statistik Event
                     </h4>
 
-                    <div class="mb-3">
-                        Total Pendaftar
-                        <h3>{{ $event->registrations->count() }}</h3>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Total Pendaftar</span>
+                        <h5 class="fw-bold">
+                            {{ $event->registrations->count() }}
+                        </h5>
                     </div>
 
-                    <div class="mb-3">
-                        Pending
-                        <h3>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Pending</span>
+
+                        <h5 class="fw-bold text-warning">
                             {{ $event->registrations->where('status','Pending')->count() }}
-                        </h3>
+                        </h5>
                     </div>
 
-                    <div class="mb-3">
-                        Confirmed
-                        <h3 class="text-success">
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Confirmed</span>
+
+                        <h5 class="fw-bold text-success">
                             {{ $event->registrations->where('status','Confirmed')->count() }}
-                        </h3>
+                        </h5>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Rejected</span>
+
+                        <h5 class="fw-bold text-danger">
+                            {{ $event->registrations->where('status','Rejected')->count() }}
+                        </h5>
+                    </div>
+
+                    <hr>
+
+                    @php
+                        $pesertaAktif =
+                        $event->registrations->where('status','Pending')->count()
+                        +
+                        $event->registrations->where('status','Confirmed')->count();
+
+                        $kuotaAwal = $event->kuota + $pesertaAktif;
+                    @endphp
+
+                    <div class="d-flex justify-content-between mb-3">
+
+                        <span>Kuota Awal</span>
+
+                        <h5 class="fw-bold">
+                            {{ $kuotaAwal }}
+                        </h5>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-3">
+
+                        <span>Kuota Tersisa</span>
+
+                        <h5 class="fw-bold text-primary">
+                            {{ $event->kuota }}
+                        </h5>
+
                     </div>
 
                     <div class="mb-3">
-                        Rejected
-                        <h3 class="text-danger">
-                            {{ $event->registrations->where('status','Rejected')->count() }}
-                        </h3>
+
+                        <span>Tingkat Keterisian</span>
+
+                        <div class="progress mt-2" style="height:18px;">
+
+                            <div
+                                class="progress-bar bg-warning"
+
+                                style="width:
+                                {{ $kuotaAwal > 0
+                                ? ($pesertaAktif/$kuotaAwal)*100
+                                : 0 }}%">
+
+                                {{ $kuotaAwal > 0
+                                ? round(($pesertaAktif/$kuotaAwal)*100)
+                                : 0 }}%
+
+                            </div>
+
+                        </div>
+
                     </div>
 
                 </div>
@@ -131,89 +207,195 @@
 
     </div>
 
-</div>
+    <hr class="my-5">
 
-<hr class="my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-<h3 class="fw-bold mb-4">
-    Daftar Peserta
-</h3>
+        <h3 class="fw-bold mb-0">
+            Daftar Peserta
+        </h3>
 
-@if ($event->registrations->count())
+        <span class="badge bg-dark fs-6">
+            {{ $event->registrations->count() }} Peserta
+        </span>
 
-    <div class="table-responsive">
+    </div>
 
-        <table class="table table-hover align-middle">
+    @if($event->registrations->count())
 
-            <thead>
-                <tr>
-                    <th>Nama</th>
-                    <th>Email</th>
-                    <th>Status</th>
-                    <th>Total Bayar</th>
-                    <th>Bukti</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
+    <div class="card border-0 shadow-sm rounded-4">
 
-            <tbody>
+        <div class="table-responsive">
 
-                @foreach ($event->registrations as $registration)
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
 
                     <tr>
-                        <td>{{ $registration->nama_lengkap }}</td>
 
-                        <td>{{ $registration->email }}</td>
+                        <th>Nama</th>
 
-                        <td>
-                            @if ($registration->status == 'Pending')
-                                <span class="badge bg-warning">Pending</span>
-                            @elseif ($registration->status == 'Confirmed')
-                                <span class="badge bg-success">Confirmed</span>
-                            @else
-                                <span class="badge bg-danger">Rejected</span>
-                            @endif
-                        </td>
+                        <th>Email</th>
 
-                        <td>
-                            Rp {{ number_format($registration->total_bayar, 0, ',', '.') }}
-                        </td>
+                        <th>Status</th>
 
-                        <td>
-                            @if ($registration->bukti_pembayaran)
-                                <a
-                                    href="{{ asset('storage/bukti-pembayaran/' . $registration->bukti_pembayaran) }}"
-                                    target="_blank"
-                                    class="btn btn-sm btn-outline-primary">
-                                    Lihat
-                                </a>
-                            @else
-                                -
-                            @endif
-                        </td>
+                        <th>Total Bayar</th>
 
-                        <td>
-                            <a
-                                href="{{ route('admin.registrations.show', $registration->id) }}"
-                                class="btn btn-warning btn-sm">
-                                Detail
-                            </a>
-                        </td>
+                        <th>Bukti</th>
+
+                        <th width="280">
+                            Aksi
+                        </th>
+
                     </tr>
 
-                @endforeach
+                </thead>
 
-            </tbody>
+                <tbody>
 
-        </table>
+                    @foreach($event->registrations as $registration)
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+                                {{ $registration->nama_lengkap }}
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            {{ $registration->email }}
+
+                        </td>
+
+                        <td>
+
+                            @if($registration->status=="Pending")
+
+                                <span class="badge bg-warning text-dark">
+                                    Pending
+                                </span>
+
+                            @elseif($registration->status=="Confirmed")
+
+                                <span class="badge bg-success">
+                                    Confirmed
+                                </span>
+
+                            @else
+
+                                <span class="badge bg-danger">
+                                    Rejected
+                                </span>
+
+                            @endif
+
+                        </td>
+
+                        <td>
+
+                            Rp {{ number_format($registration->total_bayar,0,',','.') }}
+
+                        </td>
+
+                        <td>
+
+                            @if($registration->bukti_pembayaran)
+
+                                <a
+                                    href="{{ asset('storage/bukti-pembayaran/'.$registration->bukti_pembayaran) }}"
+                                    target="_blank"
+                                    class="btn btn-sm btn-outline-primary">
+
+                                    Lihat
+
+                                </a>
+
+                            @else
+
+                                -
+
+                            @endif
+
+                        </td>
+
+                        <td>
+
+                            <a
+                                href="{{ route('admin.registrations.show',$registration->id) }}"
+                                class="btn btn-warning btn-sm">
+
+                                Detail
+
+                            </a>
+
+                            @if($registration->status=="Pending")
+
+                                <form
+                                    action="{{ route('admin.registrations.confirm',$registration->id) }}"
+                                    method="POST"
+                                    class="d-inline">
+
+                                    @csrf
+                                    @method('PATCH')
+
+                                    <button
+                                        class="btn btn-success btn-sm"
+                                        onclick="return confirm('Konfirmasi peserta ini?')">
+
+                                        Approve
+
+                                    </button>
+
+                                </form>
+
+                                <form
+                                    action="{{ route('admin.registrations.reject',$registration->id) }}"
+                                    method="POST"
+                                    class="d-inline">
+
+                                    @csrf
+                                    @method('PATCH')
+
+                                    <button
+                                        class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Tolak peserta ini?')">
+
+                                        Reject
+
+                                    </button>
+
+                                </form>
+
+                            @endif
+
+                        </td>
+
+                    </tr>
+
+                    @endforeach
+
+                </tbody>
+
+            </table>
+
+        </div>
 
     </div>
 
-@else
+    @else
 
-    <div class="alert alert-warning">
-        Belum ada peserta pada event ini.
-    </div>
+        <div class="alert alert-warning">
 
-@endif
+            Belum ada peserta pada event ini.
+
+        </div>
+
+    @endif
+
+</div>
+
 @endsection
