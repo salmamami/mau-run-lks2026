@@ -89,3 +89,13 @@ Route::get(
     '/admin/events/{event}',
     [EventController::class, 'show']
 )->name('events.show');
+
+Route::get(
+    '/admin/pesertas',
+    [App\Http\Controllers\Admin\PesertaController::class,'index']
+)->name('admin.pesertas.index');
+
+Route::get(
+    '/admin/pesertas/{peserta}',
+    [App\Http\Controllers\Admin\PesertaController::class,'show']
+)->name('admin.pesertas.show');
