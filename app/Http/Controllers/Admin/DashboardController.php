@@ -11,45 +11,56 @@ use App\Models\Registration;
 class DashboardController extends Controller
 {
     public function index()
-    {
-        $events = Event::with([
-            'city',
-            'eventType',
-            'registrations'
-        ])->latest()->get();
+{
+    $events = Event::with([
+        'city',
+        'eventType',
+        'registrations'
+    ])->latest()->get();
 
-        $latestRegistrations = Registration::with([
-            'event',
-            'user'
-        ])
-        ->latest()
+    $latestRegistrations = Registration::with([
+        'event',
+        'user'
+    ])
+    ->latest()
+    ->take(5)
+    ->get();
+
+    $almostFullEvents = Event::orderBy('kuota')
         ->take(5)
         ->get();
 
-        $almostFullEvents = Event::orderBy('kuota')
-            ->take(5)
-            ->get();
+    return view('admin.dashboard', [
 
-        return view('admin.dashboard', [
+        'events' => $events,
 
-            'events' => $events,
+        'latestRegistrations' => $latestRegistrations,
 
-            'latestRegistrations' => $latestRegistrations,
+        'almostFullEvents' => $almostFullEvents,
 
-            'almostFullEvents' => $almostFullEvents,
+        // Statistik
+        'totalEvent' => Event::count(),
 
-            'totalEvent' => Event::count(),
+        'totalPeserta' => Registration::where('status', 'Confirmed')->count(),
 
-            'totalPeserta' => Registration::where('status','Confirmed')->count(),
+        'pendingPeserta' => Registration::where('status', 'Pending')->count(),
 
-            'pendingPeserta' => Registration::where('status','Pending')->count(),
+        'confirmedPeserta' => Registration::where('status', 'Confirmed')->count(),
 
-            'totalKota' => City::count(),
+        'rejectedPeserta' => Registration::where('status', 'Rejected')->count(),
 
-            'totalJenis' => EventType::count(),
+        'totalPendapatan' => Registration::where('status', 'Confirmed')
+            ->sum('total_bayar'),
 
-            'totalKuota' => Event::sum('kuota')
+        'eventPending' => Event::whereHas('registrations', function ($q) {
+            $q->where('status', 'Pending');
+        })->count(),
 
-        ]);
-    }
+        'totalKota' => City::count(),
+
+        'totalJenis' => EventType::count(),
+
+        'totalKuota' => Event::sum('kuota')
+    ]);
+}
 }

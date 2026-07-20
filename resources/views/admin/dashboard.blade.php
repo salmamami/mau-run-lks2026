@@ -6,108 +6,46 @@
 
 <div class="container">
 
-    {{-- HEADER --}}
-    <div class="mb-5">
-        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill">
-            ADMIN PANEL
-        </span>
+```
+{{-- HEADER --}}
+<div class="mb-5">
 
-        <div class="d-flex justify-content-between align-items-center flex-wrap mt-3">
-            <div>
-                <h1 class="fw-bold display-5 mb-2">Welcome Back 👋</h1>
+    <span class="badge bg-warning text-dark px-3 py-2 rounded-pill">
+        ADMIN PANEL
+    </span>
 
-                <p class="text-muted fs-5 mb-0">
-                    Monitor seluruh event dan peserta Mau Run dari satu dashboard.
-                </p>
-            </div>
+    <div class="d-flex justify-content-between align-items-center flex-wrap mt-3">
 
-            <div class="d-flex gap-2">
-                <a
-                    href="{{ route('admin.registrations.index') }}"
-                    class="btn btn-dark rounded-pill px-4">
-                    Kelola Peserta
-                </a>
+        <div>
+            <h1 class="fw-bold display-5 mb-2">
+                Welcome Back 👋
+            </h1>
 
-                <a
-                    href="{{ route('events.create') }}"
-                    class="btn btn-warning rounded-pill px-4">
-                    + Tambah Event
-                </a>
-            </div>
+            <p class="text-muted fs-5 mb-0">
+                Monitor seluruh event dan peserta Mau Run dari satu dashboard.
+            </p>
         </div>
+
+        <div class="d-flex gap-2">
+
+            <a href="{{ route('admin.registrations.index') }}"
+                class="btn btn-dark rounded-pill px-4">
+                Kelola Peserta
+            </a>
+
+            <a href="{{ route('events.create') }}"
+                class="btn btn-warning rounded-pill px-4">
+                + Tambah Event
+            </a>
+
+        </div>
+
     </div>
 
-    {{-- STATISTIK --}}
-    <div class="row g-4 mb-5">
-        <div class="col-lg-3 col-md-6">
-            <div class="stat-card">
-                <div class="stat-number">{{ $totalEvent }}</div>
-                <div class="stat-title">Total Event</div>
-            </div>
-        </div>
+</div>
 
-        <div class="col-lg-3 col-md-6">
-            <div class="stat-card">
-                <div class="stat-number">{{ $totalPeserta }}</div>
-                <div class="stat-title">Peserta Aktif</div>
-            </div>
-        </div>
 
-        <div class="col-lg-3 col-md-6">
-            <div class="stat-card">
-                <div class="stat-number">{{ $totalKota }}</div>
-                <div class="stat-title">Kota</div>
-            </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6">
-            <div class="stat-card">
-                <div class="stat-number">{{ $totalJenis }}</div>
-                <div class="stat-title">Jenis Event</div>
-            </div>
-        </div>
-    </div>
-
-    {{-- STATUS PESERTA --}}
-    <div class="row g-4 mb-5">
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm rounded-4">
-                <div class="card-body text-center">
-                    <h2 class="fw-bold text-warning">
-                        {{ \App\Models\Registration::where('status', 'Pending')->count() }}
-                    </h2>
-
-                    <p class="text-muted mb-0">Menunggu Konfirmasi</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm rounded-4">
-                <div class="card-body text-center">
-                    <h2 class="fw-bold text-success">
-                        {{ \App\Models\Registration::where('status', 'Confirmed')->count() }}
-                    </h2>
-
-                    <p class="text-muted mb-0">Peserta Diterima</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm rounded-4">
-                <div class="card-body text-center">
-                    <h2 class="fw-bold text-danger">
-                        {{ \App\Models\Registration::where('status', 'Rejected')->count() }}
-                    </h2>
-
-                    <p class="text-muted mb-0">Pendaftaran Ditolak</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{-- QUICK ACTION --}}
+{{-- QUICK ACTION --}}
 <div class="row g-4 mb-5">
 
     <div class="col-md-3">
@@ -116,28 +54,22 @@
 
             <div class="card-body text-center py-4">
                 <h1>➕</h1>
-                <h5 class="fw-bold mt-3">
-                    Tambah Event
-                </h5>
-                <small class="text-muted">
-                    Buat event baru
-                </small>
+                <h5 class="fw-bold mt-3">Tambah Event</h5>
+                <small class="text-muted">Buat event baru</small>
             </div>
 
         </a>
     </div>
 
     <div class="col-md-3">
-        <a href="{{ route('admin.registrations.index', ['status' => 'Pending']) }}"
+        <a href="{{ route('admin.registrations.index',['status'=>'Pending']) }}"
             class="card border-0 shadow-sm rounded-4 text-decoration-none text-dark h-100">
 
             <div class="card-body text-center py-4">
                 <h1>⏳</h1>
-                <h5 class="fw-bold mt-3">
-                    Verifikasi
-                </h5>
+                <h5 class="fw-bold mt-3">Verifikasi</h5>
                 <small class="text-muted">
-                    Peserta Pending
+                    {{ $pendingPeserta }} Peserta Pending
                 </small>
             </div>
 
@@ -150,12 +82,8 @@
 
             <div class="card-body text-center py-4">
                 <h1>🏃</h1>
-                <h5 class="fw-bold mt-3">
-                    Kelola Event
-                </h5>
-                <small class="text-muted">
-                    Lihat semua event
-                </small>
+                <h5 class="fw-bold mt-3">Kelola Event</h5>
+                <small class="text-muted">Semua Event</small>
             </div>
 
         </a>
@@ -167,12 +95,8 @@
 
             <div class="card-body text-center py-4">
                 <h1>👥</h1>
-                <h5 class="fw-bold mt-3">
-                    Kelola Peserta
-                </h5>
-                <small class="text-muted">
-                    Semua pendaftaran
-                </small>
+                <h5 class="fw-bold mt-3">Kelola Peserta</h5>
+                <small class="text-muted">Semua Pendaftaran</small>
             </div>
 
         </a>
@@ -180,76 +104,262 @@
 
 </div>
 
-    {{-- EVENT TERBARU --}}
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h3 class="fw-bold mb-1">Event Terbaru</h3>
 
-            <p class="text-muted mb-0">
-                Event yang baru ditambahkan.
-            </p>
+{{-- STATISTIK --}}
+<div class="row g-4 mb-5">
+
+    <div class="col-lg-3 col-md-6">
+        <div class="stat-card text-center">
+
+            <div style="font-size:35px;">📋</div>
+
+            <div class="stat-number">
+                {{ $eventPending }}
+            </div>
+
+            <div class="stat-title">
+                Event Perlu Verifikasi
+            </div>
+
         </div>
-
-        <a
-            href="{{ route('events.index') }}"
-            class="fw-semibold text-decoration-none">
-            Lihat Semua →
-        </a>
     </div>
 
-    <div class="row">
-        @foreach ($events->take(3) as $event)
-            <div class="col-lg-4 mb-4">
-                <div class="card border-0 shadow rounded-4 overflow-hidden h-100">
+    <div class="col-lg-3 col-md-6">
+        <div class="stat-card text-center">
 
-                    <img
-                        src="{{ asset('images/' . $event->image) }}"
-                        style="height: 220px; object-fit: cover;">
+            <div style="font-size:35px;">🏃</div>
 
-                    <div class="card-body d-flex flex-column">
+            <div class="stat-number">
+                {{ $totalEvent }}
+            </div>
 
-                        <span class="badge bg-warning text-dark">
-                            {{ $event->eventType->name }}
+            <div class="stat-title">
+                Total Event
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="stat-card text-center">
+
+            <div style="font-size:35px;">👥</div>
+
+            <div class="stat-number">
+                {{ $totalPeserta }}
+            </div>
+
+            <div class="stat-title">
+                Peserta Aktif
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="stat-card text-center">
+
+            <div style="font-size:35px;">💰</div>
+
+            <div class="stat-number" style="font-size:30px;">
+                Rp {{ number_format($totalPendapatan,0,',','.') }}
+            </div>
+
+            <div class="stat-title">
+                Pendapatan
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+{{-- STATUS --}}
+<div class="row g-4 mb-5">
+
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4">
+
+            <div class="card-body text-center">
+
+                <h2 class="fw-bold text-warning">
+                    {{ $pendingPeserta }}
+                </h2>
+
+                <p class="text-muted mb-0">
+                    Menunggu Konfirmasi
+                </p>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4">
+
+            <div class="card-body text-center">
+
+                <h2 class="fw-bold text-success">
+                    {{ $confirmedPeserta }}
+                </h2>
+
+                <p class="text-muted mb-0">
+                    Peserta Diterima
+                </p>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm rounded-4">
+
+            <div class="card-body text-center">
+
+                <h2 class="fw-bold text-danger">
+                    {{ $rejectedPeserta }}
+                </h2>
+
+                <p class="text-muted mb-0">
+                    Pendaftaran Ditolak
+                </p>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+{{-- EVENT TERBARU --}}
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h3 class="fw-bold mb-1">
+            Event Terbaru
+        </h3>
+
+        <p class="text-muted mb-0">
+            Event yang baru ditambahkan.
+        </p>
+
+    </div>
+
+    <a href="{{ route('events.index') }}"
+        class="fw-semibold text-decoration-none">
+        Lihat Semua →
+    </a>
+
+</div>
+
+
+<div class="row">
+
+    @foreach($events->take(3) as $event)
+
+    @php
+
+        $terdaftar = $event->registrations
+            ->whereIn('status',['Pending','Confirmed'])
+            ->count();
+
+        $kapasitas = $terdaftar + $event->kuota;
+
+        $persen = $kapasitas > 0
+            ? ($terdaftar / $kapasitas) * 100
+            : 0;
+
+    @endphp
+
+    <div class="col-lg-4 mb-4">
+
+        <div class="card border-0 shadow rounded-4 overflow-hidden h-100">
+
+            <img
+                src="{{ asset('images/'.$event->image) }}"
+                style="height:220px;object-fit:cover;">
+
+            <div class="card-body d-flex flex-column">
+
+                <div class="mb-2">
+
+                    <span class="badge bg-warning text-dark">
+                        {{ $event->eventType->name }}
+                    </span>
+
+                    @if($event->kuota > 0)
+
+                        <span class="badge bg-success">
+                            Dibuka
                         </span>
 
-                        <h4 class="fw-bold mt-3">{{ $event->nama_event }}</h4>
+                    @else
 
-                        <p class="text-muted mb-2">
-                            📍 {{ $event->city->name }}
-                        </p>
+                        <span class="badge bg-danger">
+                            Penuh
+                        </span>
 
-                        <p class="text-muted mb-2">
-                            📅 {{ \Carbon\Carbon::parse($event->tanggal)->format('d M Y') }}
-                        </p>
+                    @endif
 
-                        <p class="text-muted mb-2">
-                            👥 {{ $event->registrations()->whereIn('status', ['Pending', 'Confirmed'])->count() }} Peserta
-                        </p>
-
-                        <p class="text-muted">
-                            🎟️ Sisa Kuota :
-                            <strong>{{ $event->kuota }}</strong>
-                        </p>
-
-                        <div class="mt-auto d-flex gap-2">
-                            <a
-                                href="{{ route('events.show', $event->id) }}"
-                                class="btn btn-dark w-100">
-                                Detail
-                            </a>
-
-                            <a
-                                href="{{ route('events.edit', $event->id) }}"
-                                class="btn btn-warning w-100">
-                                Edit
-                            </a>
-                        </div>
-
-                    </div>
                 </div>
+
+                <h4 class="fw-bold">
+                    {{ $event->nama_event }}
+                </h4>
+
+                <p class="text-muted mb-1">
+                    📍 {{ $event->city->name }}
+                </p>
+
+                <p class="text-muted mb-1">
+                    📅 {{ \Carbon\Carbon::parse($event->tanggal)->format('d M Y') }}
+                </p>
+
+                <p class="text-muted mb-2">
+                    👥 {{ $terdaftar }} Peserta
+                </p>
+
+                <small class="text-muted">
+                    Sisa Kuota : {{ $event->kuota }}
+                </small>
+
+                <div class="progress mt-2 mb-3" style="height:8px;">
+
+                    <div
+                        class="progress-bar bg-warning"
+                        style="width:{{ $persen }}%">
+                    </div>
+
+                </div>
+
+                <div class="mt-auto d-flex gap-2">
+
+                    <a href="{{ route('events.show',$event->id) }}"
+                        class="btn btn-dark w-100">
+                        Detail
+                    </a>
+
+                    <a href="{{ route('events.edit',$event->id) }}"
+                        class="btn btn-warning w-100">
+                        Edit
+                    </a>
+
+                </div>
+
             </div>
-        @endforeach
+
+        </div>
+
     </div>
+
+    @endforeach
+
+</div>
 
 </div>
 
