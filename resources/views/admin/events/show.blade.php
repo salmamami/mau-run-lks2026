@@ -133,4 +133,87 @@
 
 </div>
 
+<hr class="my-5">
+
+<h3 class="fw-bold mb-4">
+    Daftar Peserta
+</h3>
+
+@if ($event->registrations->count())
+
+    <div class="table-responsive">
+
+        <table class="table table-hover align-middle">
+
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Total Bayar</th>
+                    <th>Bukti</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach ($event->registrations as $registration)
+
+                    <tr>
+                        <td>{{ $registration->nama_lengkap }}</td>
+
+                        <td>{{ $registration->email }}</td>
+
+                        <td>
+                            @if ($registration->status == 'Pending')
+                                <span class="badge bg-warning">Pending</span>
+                            @elseif ($registration->status == 'Confirmed')
+                                <span class="badge bg-success">Confirmed</span>
+                            @else
+                                <span class="badge bg-danger">Rejected</span>
+                            @endif
+                        </td>
+
+                        <td>
+                            Rp {{ number_format($registration->total_bayar, 0, ',', '.') }}
+                        </td>
+
+                        <td>
+                            @if ($registration->bukti_pembayaran)
+                                <a
+                                    href="{{ asset('storage/bukti-pembayaran/' . $registration->bukti_pembayaran) }}"
+                                    target="_blank"
+                                    class="btn btn-sm btn-outline-primary">
+                                    Lihat
+                                </a>
+                            @else
+                                -
+                            @endif
+                        </td>
+
+                        <td>
+                            <a
+                                href="{{ route('admin.registrations.show', $registration->id) }}"
+                                class="btn btn-warning btn-sm">
+                                Detail
+                            </a>
+                        </td>
+                    </tr>
+
+                @endforeach
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+@else
+
+    <div class="alert alert-warning">
+        Belum ada peserta pada event ini.
+    </div>
+
+@endif
 @endsection
